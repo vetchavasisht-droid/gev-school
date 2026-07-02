@@ -7,7 +7,7 @@ let idc=1000;const nid=()=>'id'+(++idc);
 const ord=n=>{const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);};
 const grd=(m,mx)=>{const p=(m/mx)*100;return p>=90?'A+':p>=80?'A':p>=70?'B+':p>=60?'B':p>=50?'C':'D';};
 app.set('trust proxy',1);app.use(cors());app.use(express.json({limit:'10mb'}));
-app.use(express.static(path.join(process.cwd(),'public')));
+app.use(express.static(path.join(__dirname + "/..",'public')));
 async function q(sql,p=[]){try{const r=await pool.query(sql,p);return r.rows;}catch(e){console.log('DB err:',e.message);return[];}}
 async function initDB(){
   await q(`CREATE TABLE IF NOT EXISTS classes(id TEXT PRIMARY KEY,name TEXT)`);
@@ -130,5 +130,5 @@ app.post('/api/switcher',async(req,res)=>{
 });
 app.delete('/api/switcher/:id',async(req,res)=>{await q('DELETE FROM switcher WHERE id=$1',[req.params.id]);res.json({success:true});});
 app.patch('/api/switcher/:id/password',async(req,res)=>{await q('UPDATE switcher SET password=$1 WHERE id=$2',[req.body.password,req.params.id]);res.json({success:true});});
-app.get('*',(req,res)=>res.sendFile(path.join(process.cwd(),'public/index.html')));
+app.get('*',(req,res)=>res.sendFile(path.join(__dirname + "/..",'public/index.html')));
 app.listen(process.env.PORT||3000,()=>console.log('✅ GEV running at http://localhost:3000'));
