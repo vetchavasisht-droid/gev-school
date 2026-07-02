@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Golden Eye Vidyapeeth</title>
+<style>
+*,::before,::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:#111}
+.hidden{display:none!important}
+input,select,textarea,button{font-family:inherit;font-size:14px}
+/* LOGIN */
+.pg-login{min-height:100vh;background:#3d0606;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{background:#fff;border-radius:10px;padding:28px 24px;width:100%;max-width:390px;box-shadow:0 8px 40px rgba(0,0,0,.35)}
+.login-logo{background:#5a0a0a;border-radius:6px;padding:14px 16px;margin-bottom:20px}
+.login-name{font-size:17px;font-weight:700;color:#f0c040}
+.login-sub{font-size:11px;color:#f5e6b0;margin-top:2px}
+.host-box{background:#fdf3d0;border:1px solid rgba(212,160,23,.45);border-radius:6px;padding:14px;margin-bottom:10px}
+.hbl{font-size:12px;font-weight:700;color:#5a0a0a;margin-bottom:8px}
+.host-box input{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;margin-bottom:8px;outline:none}
+.btn-host{width:100%;padding:10px;background:#5a0a0a;color:#f0c040;border:none;border-radius:6px;font-weight:700;cursor:pointer}
+.or-line{display:flex;align-items:center;gap:10px;margin:12px 0;color:#ccc;font-size:12px}
+.or-line::before,.or-line::after{content:'';flex:1;height:1px;background:#e5e5e5}
+.tinput{display:block;width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:6px;outline:none;margin-bottom:10px}
+.tinput:focus{border-color:#5a0a0a}
+.errmsg{background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:9px 12px;color:#991b1b;font-size:13px;margin-bottom:10px}
+.btn-login{width:100%;padding:11px;background:#5a0a0a;color:#f0c040;border:none;border-radius:6px;font-weight:700;font-size:15px;cursor:pointer;margin-top:4px}
+.lhint{margin-top:10px;font-size:11px;color:#999;text-align:center}
+/* SWITCHER */
+.pg-switcher{min-height:100vh;background:#3d0606;display:flex;align-items:center;justify-content:center;padding:20px}
+.sw-inner{width:100%;max-width:400px}
+.sw-title{text-align:center;margin-bottom:20px}
+.sw-school{background:#5a0a0a;border-radius:8px;padding:10px 16px;display:inline-block;margin-bottom:6px;color:#f0c040;font-size:15px;font-weight:700}
+.sw-hint{font-size:13px;color:rgba(245,230,176,.6)}
+.sw-card{background:#fff;border:2px solid #5a0a0a;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:10px;transition:border-color .2s}
+.sw-card:hover{border-color:#d4a017;background:#fdf9ee}
+.sw-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+.sw-name{font-size:14px;font-weight:700;color:#111}
+.sw-role{font-size:12px;color:#888;margin-top:2px}
+.sw-edit{font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #e5e5e5;background:#fff;color:#555;cursor:pointer;flex-shrink:0;margin-left:auto}
+.sw-add{width:100%;padding:12px;border:2px dashed rgba(212,160,23,.4);border-radius:12px;background:rgba(212,160,23,.05);color:#f0c040;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+/* PIN */
+.pg-pin{min-height:100vh;background:#3d0606;display:flex;align-items:center;justify-content:center;padding:20px}
+/* APP */
+.pg-app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:210px;background:#3d0606;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;z-index:100;transition:transform .25s}
+.sbtop{padding:14px 12px 10px;border-bottom:1px solid rgba(212,160,23,.2)}
+.sbsn{font-size:13px;font-weight:700;color:#f0c040}.sbss{font-size:10px;color:#f5e6b0;opacity:.8}
+.sbuser{display:flex;align-items:center;gap:8px;margin-top:8px}
+.sbbadge{font-size:10px;background:rgba(212,160,23,.2);color:#f0c040;padding:2px 9px;border-radius:999px;border:1px solid rgba(212,160,23,.35)}
+.sbname{font-size:12px;color:#f5e6b0;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sblabel{font-size:9px;color:rgba(212,160,23,.4);text-transform:uppercase;letter-spacing:.08em;padding:10px 12px 4px}
+#sbclasses{flex:1;padding:0 8px 8px}
+.sbcls{display:block;width:100%;text-align:left;padding:8px 10px;border-radius:6px;font-size:12px;color:rgba(245,230,176,.7);cursor:pointer;margin-bottom:2px;background:none;border:none}
+.sbcls:hover{background:rgba(212,160,23,.12);color:#f0c040}
+.sbcls.active{background:rgba(212,160,23,.2);color:#f0c040;font-weight:700}
+.sbfoot{padding:12px;border-top:1px solid rgba(212,160,23,.15)}
+.sbout{width:100%;padding:7px;background:transparent;border:1px solid rgba(212,160,23,.3);color:#f5e6b0;border-radius:6px;cursor:pointer;font-size:12px}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;background:#f4f4f2;overflow:hidden}
+.topbar{height:52px;background:#fff;border-bottom:1px solid #e5e5e5;display:flex;align-items:center;gap:12px;padding:0 16px;flex-shrink:0}
+.mbtn{display:none;background:none;border:none;font-size:22px;cursor:pointer;color:#5a0a0a}
+.tbcls{font-size:15px;font-weight:700;flex:1}.tbemail{font-size:12px;color:#888}
+.tabbar{display:flex;background:#fff;border-bottom:1px solid #e5e5e5;padding:0 8px;overflow-x:auto;flex-shrink:0;height:46px;gap:2px}
+.tab{padding:0 12px;font-size:13px;color:#888;cursor:pointer;border:none;border-bottom:2px solid transparent;background:none;display:flex;align-items:center;white-space:nowrap}
+.tab:hover{color:#333}.tab.active{color:#5a0a0a;border-bottom-color:#5a0a0a;font-weight:700}
+.tab-admin.active{border-bottom-color:#b91c1c;color:#b91c1c}
+.panel{flex:1;overflow-y:auto;padding:16px;display:none;flex-direction:column;gap:14px}
+.panel.active{display:flex}
+.banner{background:#5a0a0a;border-radius:10px;padding:16px 18px;flex-shrink:0}
+.bname{font-size:16px;font-weight:700;color:#f0c040}.bsub{font-size:12px;color:#f5e6b0;opacity:.85;margin-top:3px}.btag{font-size:10px;color:#d4a017;margin-top:4px}
+.pcard{background:#fff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;flex-shrink:0}
+.pstrip{height:56px}.pbody{padding:0 16px 16px}
+.pavwrap{margin-top:-27px}
+.pav{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;border:3px solid #fff;background:#5a0a0a;color:#f0c040}
+.pav.stu{background:#dbeafe;color:#1d4ed8}
+.ptop{display:flex;align-items:flex-start;justify-content:space-between;padding-top:6px;margin-bottom:10px}
+.pname{font-size:17px;font-weight:700}.prole{font-size:13px;color:#777;margin-top:2px}
+.editbtn{font-size:12px;padding:5px 14px;border-radius:999px;border:1px solid #5a0a0a;background:transparent;color:#5a0a0a;cursor:pointer}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ppill{background:#f7f7f5;border-radius:6px;padding:9px 12px}
+.ppill-l{font-size:10px;color:#aaa;margin-bottom:2px}.ppill-v{font-size:13px;font-weight:600;color:#222}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex-shrink:0}
+.sbox{background:#fdf3d0;border:1px solid rgba(212,160,23,.3);border-radius:6px;padding:14px;text-align:center}
+.sbox-n{font-size:22px;font-weight:700;color:#5a0a0a}.sbox-l{font-size:11px;color:#7a1515;margin-top:3px}
+.bar{display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.bartitle{font-size:14px;font-weight:700}
+.btn-gold{background:#5a0a0a;color:#f0c040;border:none;border-radius:6px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer}
+.btn-gold.full{width:100%;padding:12px;font-size:14px;margin-top:14px}
+.acard{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:14px}
+.acard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.acard-title{font-size:14px;font-weight:700}.acard-meta{font-size:12px;color:#888;margin-top:5px}
+.acard-desc{font-size:13px;color:#555;margin-top:8px;line-height:1.5}
+.abadge{font-size:10px;padding:3px 10px;border-radius:999px;font-weight:700;flex-shrink:0}
+.ab-today{background:#fef3c7;color:#92400e}.ab-up{background:#fee2e2;color:#991b1b}.ab-past{background:#d1fae5;color:#065f46}
+.delbtn{background:none;border:none;color:#ddd;cursor:pointer;font-size:16px}
+.mtabs{display:flex;gap:8px}
+.mtab{padding:7px 16px;border-radius:999px;border:1px solid #e5e5e5;background:#fff;font-size:13px;cursor:pointer;color:#666}
+.mtab.active{background:#5a0a0a;color:#f0c040;border-color:#5a0a0a;font-weight:700}
+.tcard{background:#fff;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;margin-bottom:14px}
+.tcard-hdr{padding:12px 16px;background:#fafafa;border-bottom:1px solid #e5e5e5;display:flex;align-items:center;justify-content:space-between}
+.tcard-name{font-size:14px;font-weight:700}.tcard-meta{font-size:12px;color:#888;margin-top:2px}
+.mtbl{width:100%;border-collapse:collapse;font-size:13px}
+.mtbl th{text-align:left;padding:9px 14px;font-size:11px;font-weight:700;color:#888;border-bottom:1px solid #e5e5e5;background:#fafafa}
+.mtbl td{padding:10px 14px;border-bottom:1px solid #f0f0f0}
+.mtbl tr.r1{background:rgba(212,160,23,.1)}.mtbl tr.r2{background:rgba(180,180,180,.07)}.mtbl tr.r3{background:rgba(139,69,19,.07)}
+.rlbl{font-weight:700}tr.r1 .rlbl{color:#b8860b}tr.r2 .rlbl{color:#707070}tr.r3 .rlbl{color:#8b4513}
+.fcard{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:16px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fg{margin-bottom:12px}.fg label{display:block;font-size:12px;font-weight:700;color:#666;margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 12px;border:1px solid #e5e5e5;border-radius:6px;outline:none;font-family:inherit;font-size:14px}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#5a0a0a}.fg textarea{resize:vertical}
+.acwrap{position:relative}
+.acdrop{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e5e5e5;border-radius:6px;z-index:50;max-height:150px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.acitem{padding:9px 12px;cursor:pointer;font-size:13px}.acitem:hover{background:#fdf3d0}
+.strow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f5f5f5}
+.stname{flex:1;font-size:13px;font-weight:600}
+.strow input{width:90px;padding:7px 10px;border:1px solid #e5e5e5;border-radius:6px;outline:none}
+.stdel{background:none;border:none;color:#ccc;cursor:pointer;font-size:18px}
+.adhdr{background:#5a0a0a;border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.adtitle{font-size:16px;font-weight:700;color:#f0c040}.adsub{font-size:12px;color:#f5e6b0;opacity:.8;margin-top:3px}
+.adstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;flex-shrink:0;margin-bottom:16px}
+.astat{background:#fdf3d0;border:1px solid rgba(212,160,23,.3);border-radius:6px;padding:12px;text-align:center}
+.astat-n{font-size:22px;font-weight:700;color:#5a0a0a}.astat-l{font-size:11px;color:#7a1515;margin-top:2px}
+.sechdr{display:flex;align-items:center;justify-content:space-between;flex-shrink:0;margin-bottom:10px}
+.sectitle{font-size:13px;font-weight:700;color:#333}
+.clsgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
+.clsblock{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
+.clsblock:hover{border-color:#d4a017}.clsblock.sel{border:2px solid #5a0a0a;background:#fdf3d0}
+.clsname{font-size:14px;font-weight:700}.clsmeta{font-size:12px;color:#888;margin-top:3px}
+.clsdel{background:none;border:none;color:#ddd;cursor:pointer;font-size:18px;padding:4px}
+.utbl{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:10px;border:1px solid #e5e5e5;overflow:hidden}
+.utbl th{text-align:left;padding:9px 14px;font-size:11px;font-weight:700;color:#888;border-bottom:1px solid #e5e5e5;background:#fafafa}
+.utbl td{padding:9px 14px;border-bottom:1px solid #f5f5f5}
+.rpill{font-size:10px;padding:2px 8px;border-radius:999px;font-weight:700}
+.rpt{background:#fdf3d0;color:#5a0a0a}.rps{background:#dbeafe;color:#1d4ed8}
+.tbtn{font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid #e5e5e5;background:#fff;cursor:pointer;color:#555;margin-right:4px}
+.tbtn.danger{color:#dc2626;border-color:#fca5a5}
+.empty{text-align:center;padding:40px 20px;color:#ccc;font-size:14px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200}
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:10px;padding:24px;width:90%;max-width:440px;z-index:201;max-height:90vh;overflow-y:auto}
+.mtitle{font-size:16px;font-weight:700;margin-bottom:16px}
+.passsep{font-size:12px;font-weight:700;color:#555;border-top:1px solid #eee;padding-top:14px;margin:6px 0 12px}
+.mbtns{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+.btn-cancel{padding:9px 18px;border:1px solid #e5e5e5;border-radius:6px;background:#fff;cursor:pointer;color:#555}
+.btn-confirm{padding:9px 18px;background:#5a0a0a;color:#f0c040;border:none;border-radius:6px;cursor:pointer;font-weight:700}
+.notif-card{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:14px;position:relative}
+.notif-del{position:absolute;top:8px;right:8px;background:none;border:none;font-size:18px;cursor:pointer;color:#aaa}
+.notif-img{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-bottom:10px;display:block}
+#ptr-spinner{position:fixed;top:-60px;left:50%;transform:translateX(-50%);width:36px;height:36px;border:3px solid #e5e5e5;border-top-color:#5a0a0a;border-radius:50%;transition:top .3s;z-index:9999;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+#ptr-spinner.visible{top:16px}
+#ptr-spinner.spinning{animation:spin 0.7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:680px){
+  .sidebar{position:fixed;top:0;left:0;bottom:0;transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.3)}
+  .mbtn{display:block}.tbemail{display:none}
+  .adstats,.statrow{grid-template-columns:1fr 1fr}
+  .twocol,.clsgrid,.pgrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SWITCHER -->
+<div id="pg-switcher" class="pg-switcher hidden">
+<div class="sw-inner">
+<div class="sw-title">
+<div class="sw-school">Golden Eye Vidyapeeth</div><br>
+<span class="sw-hint">Select an account to continue</span>
+</div>
+<div id="sw-accounts"></div>
+<button class="sw-add" onclick="showLogin()">+ Add another account</button>
+</div>
+</div>
+
+<!-- PIN PAGE -->
+<div id="pg-pin" class="pg-pin hidden">
+<div class="login-card">
+<div class="login-logo"><div class="login-name">Golden Eye Vidyapeeth</div></div>
+<div style="text-align:center;margin-bottom:16px">
+<div id="pin-avatar" style="width:56px;height:56px;border-radius:50%;background:#5a0a0a;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#f0c040;margin:0 auto 8px"></div>
+<div id="pin-name" style="font-size:16px;font-weight:700"></div>
+<div style="font-size:12px;color:#888;margin-top:2px">Enter your PIN to continue</div>
+</div>
+<div class="fg"><input type="password" id="pp-pin" class="tinput" placeholder="Enter host PIN" onkeydown="if(event.key==='Enter')doPinLogin()"></div>
+<div id="pp-err" class="errmsg hidden"></div>
+<button class="btn-login" onclick="doPinLogin()">Continue</button>
+<button onclick="showSwitcher()" style="width:100%;margin-top:10px;padding:10px;background:transparent;border:none;color:#888;cursor:pointer;font-size:13px">← Back</button>
+</div>
+</div>
+
+<!-- LOGIN -->
+<div id="pg-login" class="pg-login hidden">
+<div class="login-card">
+<div class="login-logo"><div class="login-name">Golden Eye Vidyapeeth</div><div class="login-sub">IIT-JEE · NEET · IAS/IIM · Vijayawada</div></div>
+<div class="host-box">
+<div class="hbl">🛡 Principal / Host</div>
+<input type="password" id="hpin" placeholder="Enter host PIN" onkeydown="if(event.key==='Enter')hostLogin()">
+<div id="herr" class="errmsg hidden"></div>
+<button class="btn-host" onclick="hostLogin()">Enter as Host</button>
+</div>
+<div class="or-line"><span>or sign in as</span></div>
+<div style="display:flex;gap:10px;margin-bottom:14px">
+<button id="btn-student" onclick="setRole('student')" style="flex:1;padding:10px;border-radius:6px;border:2px solid #5a0a0a;background:#5a0a0a;color:#f0c040;font-weight:700;cursor:pointer;font-size:13px">🎓 Student</button>
+<button id="btn-teacher" onclick="setRole('teacher')" style="flex:1;padding:10px;border-radius:6px;border:2px solid #ddd;background:#fff;color:#555;font-weight:700;cursor:pointer;font-size:13px">👩‍🏫 Teacher</button>
+</div>
+<div class="fg"><label id="login-id-label">Enrollment Number</label><input type="text" id="lemail" class="tinput" placeholder="Enter enrollment number"></div>
+<div class="fg"><label>Password</label><input type="password" id="lpass" class="tinput" placeholder="Enter your password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+<div id="lerr" class="errmsg hidden"></div>
+<button class="btn-login" onclick="doLogin()">Sign in</button>
+<div class="lhint">Students: enrollment number · Teachers: email</div>
+<div id="back-sw-wrap" class="hidden" style="margin-top:10px;text-align:center">
+<button onclick="showSwitcher()" style="background:none;border:none;color:#888;cursor:pointer;font-size:13px">← Back to accounts</button>
+</div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="pg-app" class="pg-app hidden">
+<div class="sidebar" id="sidebar">
+<div class="sbtop">
+<div><div class="sbsn">Golden Eye</div><div class="sbss">Vidyapeeth</div></div>
+<div class="sbuser"><span class="sbbadge" id="sbrole">-</span><span class="sbname" id="sbname"></span></div>
+</div>
+<div class="sblabel">Classes</div>
+<div id="sbclasses"></div>
+<div class="sbfoot"><button class="sbout" onclick="doLogout()">← Sign out</button></div>
+</div>
+<div class="main">
+<div class="topbar">
+<button class="mbtn" onclick="toggleSB()">☰</button>
+<div class="tbcls" id="tbcls">-</div>
+<div class="tbemail" id="tbemail"></div>
+</div>
+<div class="tabbar">
+<button class="tab active" data-tab="home" onclick="goTab('home',this)">🏠 Home</button>
+<button class="tab" data-tab="notif" onclick="goTab('notif',this)">🔔 Notifications</button>
+<button class="tab" data-tab="assign" onclick="goTab('assign',this)">📚 Assignments</button>
+<button class="tab" data-tab="marks" onclick="goTab('marks',this)">🏆 Marks</button>
+<button class="tab tab-admin hidden" data-tab="admin" onclick="goTab('admin',this)">🛡 Admin</button>
+</div>
+
+<!-- HOME -->
+<div class="panel active" id="panel-home">
+<div class="banner"><div class="bname">Golden Eye Vidyapeeth</div><div class="bsub">School and Junior College · Vijayawada, AP</div><div class="btag">IIT-JEE · NEET · IAS · IIM</div></div>
+<div class="pcard">
+<div class="pstrip" id="pstrip"></div>
+<div class="pbody">
+<div class="pavwrap"><div class="pav" id="pav">--</div></div>
+<div class="ptop"><div><div class="pname" id="pname">-</div><div class="prole" id="prole"></div></div><button class="editbtn" onclick="openPM()">✎ Edit</button></div>
+<div class="pgrid" id="pgrid"></div>
+</div>
+</div>
+<div class="statrow" id="statrow"></div>
+<div id="changepwbtnwrap" class="hidden" style="margin-top:4px"><button onclick="openChangePW()" style="font-size:13px;padding:9px 18px;border-radius:6px;border:1px solid #1d4ed8;background:transparent;color:#1d4ed8;cursor:pointer;font-weight:600">🔒 Change my password</button></div>
+<div id="changepinbtnwrap" class="hidden" style="margin-top:4px"><button onclick="openChangePIN()" style="font-size:13px;padding:9px 18px;border-radius:6px;border:1px solid #5a0a0a;background:transparent;color:#5a0a0a;cursor:pointer;font-weight:600">🔑 Change principal PIN</button></div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="panel hidden" id="panel-notif">
+<div class="bar"><div class="bartitle">🔔 Notifications</div></div>
+<div id="notif-send-area" class="hidden" style="background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:16px;flex-shrink:0">
+<div class="fg"><label>Message</label><textarea id="notif-msg" rows="3" placeholder="Type a notification..."></textarea></div>
+<div class="fg"><label>Image (optional)</label><input type="file" id="notif-img" accept="image/*" style="padding:8px;width:100%;border:1px solid #ddd;border-radius:6px"></div>
+<button class="btn-gold" onclick="sendNotification()">📢 Send notification</button>
+</div>
+<div id="notif-feed"><div class="empty">No notifications yet.</div></div>
+</div>
+
+<!-- ASSIGNMENTS -->
+<div class="panel hidden" id="panel-assign">
+<div class="bar"><div class="bartitle" id="atitle">📚 Assignments</div><button class="btn-gold hidden" id="btn-aa" onclick="openAM()">+ Add</button></div>
+<div id="alist"></div>
+</div>
+
+<!-- MARKS -->
+<div class="panel hidden" id="panel-marks">
+<div class="bar"><div class="mtabs"><button class="mtab active" onclick="mView('results',this)">📊 Results</button><button class="mtab hidden" id="btn-at" onclick="mView('add',this)">+ Add test</button></div></div>
+<div id="mresults"></div>
+<div id="madd" class="hidden">
+<div class="fcard">
+<div class="twocol"><div class="fg"><label>Test name</label><input id="tname" placeholder="e.g. Unit Test 1"></div><div class="fg"><label>Subject</label><input id="tsubj" placeholder="Mathematics"></div></div>
+<div class="twocol"><div class="fg"><label>Max marks</label><input id="tmax" type="number" placeholder="50"></div><div class="fg"><label>Date</label><input id="tdate" type="date"></div></div>
+<div style="border:2px dashed #d4a017;border-radius:8px;padding:14px;margin-bottom:12px;background:#fdf9ee">
+<div style="font-size:12px;font-weight:700;color:#5a0a0a;margin-bottom:4px">📂 Import from Excel or CSV</div>
+<input type="file" id="xl-file" accept=".xlsx,.xls,.csv" style="width:100%;padding:7px;border:1px solid #ddd;border-radius:6px;margin-bottom:8px">
+<button onclick="importExcel()" style="width:100%;padding:9px;background:#1d4ed8;color:#fff;border:none;border-radius:6px;font-weight:700;cursor:pointer">Import and publish</button>
+<div id="xl-status" style="display:none;margin-top:10px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div id="xl-spinner" style="width:18px;height:18px;border:3px solid #e5e5e5;border-top-color:#1d4ed8;border-radius:50%;flex-shrink:0"></div><div id="xl-caption" style="font-size:13px;font-weight:600;color:#333"></div></div><div style="height:4px;background:#e5e5e5;border-radius:2px"><div id="xl-progress" style="height:100%;background:#1d4ed8;border-radius:2px;width:0%;transition:width .5s"></div></div></div>
+</div>
+<div style="border-top:1px solid #eee;padding-top:12px">
+<div class="twocol"><div class="fg"><label>Enrollment No.</label><div class="acwrap"><input id="st-enroll" placeholder="Type enrollment" autocomplete="off" oninput="searchByEnroll()"><div class="acdrop hidden" id="stdrop"></div></div></div><div class="fg"><label>Name</label><input id="stsearch" readonly style="background:#f5f5f5"></div></div>
+<button onclick="addFromEnroll()" style="margin-bottom:12px;padding:8px 18px;background:#5a0a0a;color:#f0c040;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:700">+ Add student</button>
+<div id="stlist"></div>
+</div>
+<button class="btn-gold full" onclick="submitMarks()">📈 Generate ranks and publish</button>
+</div>
+</div>
+</div>
+
+<!-- ADMIN -->
+<div class="panel hidden" id="panel-admin">
+<div class="adhdr"><div><div class="adtitle">🛡 Admin Panel</div><div class="adsub">Golden Eye Vidyapeeth</div></div></div>
+<div class="adstats" id="adstats"></div>
+<div class="sechdr"><div class="sectitle">Classes</div><button class="btn-gold" onclick="openCM()">+ Add class</button></div>
+<div id="clsgrid"></div>
+<div class="sechdr" style="margin-top:16px"><div class="sectitle" id="usectitle">Users</div><button class="btn-gold" onclick="openUM()">+ Add user</button></div>
+<div id="usertbl"></div>
+</div>
+
+</div>
+</div>
+
+<!-- OVERLAY & MODALS -->
+<div class="overlay hidden" id="overlay" onclick="closeAll()"></div>
+
+<div class="modal hidden" id="modal-sw-edit">
+<div class="mtitle">Account options</div>
+<div id="sw-edit-info" style="padding:12px;background:#f7f7f5;border-radius:8px;font-size:13px;color:#555;margin-bottom:16px"></div>
+<div class="mbtns">
+<button class="btn-cancel" onclick="closeAll()">Cancel</button>
+<button onclick="swDeleteAccount()" class="btn-confirm" style="background:#dc2626">Remove</button>
+</div>
+</div>
+
+<div class="modal hidden" id="modal-profile">
+<div class="mtitle">✎ Edit profile</div>
+<div class="fg"><label>Name</label><input id="pmname"></div>
+<div class="fg"><label>Phone</label><input id="pmphone" type="tel"></div>
+<div class="fg" id="pmswrap"><label>Subject</label><input id="pmsubj"></div>
+<div class="fg"><label>Date of birth</label><input id="pmdob" type="date"></div>
+<div class="fg"><label>Address</label><textarea id="pmaddr" rows="2"></textarea></div>
+<div class="passsep">Change password (optional)</div>
+<div class="fg"><label>Current password</label><input id="pmcur" type="password"></div>
+<div class="fg"><label>New password</label><input id="pmnew" type="password"></div>
+<div id="pmerr" class="errmsg hidden"></div>
+<div class="mbtns"><button class="btn-cancel" onclick="closeAll()">Cancel</button><button class="btn-confirm" onclick="saveProfile()">Save</button></div>
+</div>
+
+<div class="modal hidden" id="modal-changepw">
+<div class="mtitle">🔒 Change password</div>
+<div class="fg"><label>Current password</label><input id="cpw-cur" type="password"></div>
+<div class="fg"><label>New password</label><input id="cpw-new" type="password" placeholder="Min 4 characters"></div>
+<div id="cpw-err" class="errmsg hidden"></div>
+<div class="mbtns"><button class="btn-cancel" onclick="closeAll()">Cancel</button><button class="btn-confirm" onclick="saveChangePW()">Save</button></div>
+</div>
+
+<div class="modal hidden" id="modal-changepin">
+<div class="mtitle">🔑 Change Principal PIN</div>
+<div class="fg"><label>Current PIN</label><input id="cpin-cur" type="password"></div>
+<div class="fg"><label>New PIN</label><input id="cpin-new" type="password" placeholder="Min 4 digits"></div>
+<div id="cpin-err" class="errmsg hidden"></div>
+<div class="mbtns"><button class="btn-cancel" onclick="closeAll()">Cancel</button><button class="btn-confirm" onclick="saveChangePIN()">Save</button></div>
+</div>
+
+<div class="modal hidden" id="modal-assign">
+<div class="mtitle">Add assignment</div>
+<div class="fg"><label>Title</label><input id="amtitle"></div>
+<div class="twocol"><div class="fg"><label>Subject</label><input id="amsubj"></div><div class="fg"><label>Due date</label><input id="amdue" type="date"></div></div>
+<div class="fg"><label>Description</label><textarea id="amdesc" rows="3"></textarea></div>
+<div class="mbtns"><button class="btn-cancel" onclick="closeAll()">Cancel</button><button class="btn-confirm" onclick="submitAssign()">Add</button></div>
+</div>
+
+<div class="modal hidden" id="modal-user">
+<div class="mtitle">Add user</div>
+<div class="fg"><label>Full name</label><input id="umname"></div>
+<div class="fg"><label id="um-id-label">Enrollment Number</label><input id="umemail" type="text"></div>
+<div class="twocol"><div class="fg"><label>Role</label><select id="umrole" onchange="updateUserModal(this.value)"><option value="student">Student</option><option value="teacher">Teacher</option></select></div><div class="fg"><label>Class</label><select id="umclass"></select></div></div>
+<div id="umerr" class="errmsg hidden"></div>
+<div class="mbtns"><button class="btn-cancel" onclick="closeAll()">Cancel</button><button class="btn-confirm" onclick="submitUser()">Add user</button></div>
+</div>
+
+<div class="modal hidden" id="modal-class">
+<div class="mtitle">Add class</div>
+<div class="fg"><label>Class name</label><input id="cmname" placeholder="e.g. Class 10-A"></div>
+<div id="cmerr" class="errmsg hidden"></div>
+<div class="mbtns"><button class="btn-cancel" onclick="closeAll()">Cancel</button><button class="btn-confirm" onclick="submitClass()">Add class</button></div>
+</div>
+
+<div class="modal hidden" id="modal-editmarks">
+<div class="mtitle">✏️ Edit result</div>
+<input type="hidden" id="em-test-id">
+<div class="twocol"><div class="fg"><label>Test name</label><input id="em-name"></div><div class="fg"><label>Subject</label><input id="em-subj"></div></div>
+<div class="fg"><label>Max marks</label><input id="em-max" type="number" style="width:120px"></div>
+<div id="em-students-list"></div>
+<div class="mbtns"><button class="btn-cancel" onclick="closeAll()">Cancel</button><button class="btn-confirm" onclick="submitEditMarks()">Save</button></div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
+
